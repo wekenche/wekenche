@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+</head>
+<body>
+	<div th:replace="fragments/header :: header" />
+	<div class="container">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">USERNAME</th>
+					<th scope="col">EMAIL</th>
+					<th scope="col">ROLE</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list,i : ${userList}">
+					<th scope="row" th:text="${i.index+1}"></th>
+					<th th:text="${list.userName}"></th>
+					<td th:text="${list.userid}"></td>
+					<td th:text="${list.userRole.role}"></td>
+					<td sec:authorize="hasRole('USER')">
+						<a th:href="@{/user/edit-user-}+${list.userid}" class="btn btn-success custom-width">edit</a>
+					</td>
+					<td sec:authorize="hasRole('ADMIN')">
+						<a href="{/user/edit-user-}+${list.userid}" class="btn btn-success custom-width">edit</a>
+						<a href="{/user/delete-user-}+${list.userid}" class="btn btn-danger custom-width">delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:replace="fragments/footer :: footer" />
+</body>
+</html>
